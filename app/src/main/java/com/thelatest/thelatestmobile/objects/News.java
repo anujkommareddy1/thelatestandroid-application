@@ -1,19 +1,17 @@
 package com.thelatest.thelatestmobile.objects;
 
-import android.graphics.drawable.Drawable;
-
 /**
  * Created by Jesse on 10/18/15.
  */
 public class News {
 
-    private Drawable newsPic;
+    private String newsPic;
     private String newsHead;
     private String newsFrom;
     private String newsDate;
     private String newsContent;
 
-    public News(Drawable newsPic, String newsHead, String newsFrom, String newsDate, String newsContent){
+    public News(String newsPic, String newsHead, String newsFrom, String newsDate, String newsContent){
         this.newsPic = newsPic;
         this.newsHead = newsHead;
         this.newsFrom = newsFrom;
@@ -21,7 +19,7 @@ public class News {
         this.newsContent = newsContent;
     }
 
-    public void setNewsPic(Drawable newsPic){
+    public void setNewsPic(String newsPic){
         this.newsPic = newsPic;
     }
 
@@ -41,7 +39,7 @@ public class News {
         this.newsContent = newsContent;
     }
 
-    public Drawable getNewsPic(){
+    public String getNewsPic(){
         return newsPic;
     }
 

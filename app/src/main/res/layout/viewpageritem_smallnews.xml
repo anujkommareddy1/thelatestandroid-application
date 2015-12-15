@@ -1,16 +1,13 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollview_smallnews"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <LinearLayout
-        android:id="@+id/linearlayout_news"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textview_smallnews_title"
+            android:id="@+id/category_title_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
@@ -19,8 +16,17 @@
             android:textStyle="bold"
             android:padding="3dp"/>
 
+        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            android:id="@+id/swipy_refresh_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:direction="both">
 
+            <ListView
+                android:id="@+id/listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    </LinearLayout>
+        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
-</ScrollView>
+</LinearLayout>

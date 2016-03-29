@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
         mainToolbar.setContentInsetsAbsolute(0, 0);
 
+        final String bigCat = NewsCategoryConstants.getBigCategories()[0];
+        final String smallCat = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCat)[0];
+
+
         hamburgerImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
         logoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayView(MAIN_PAGE, null, null);
+                displayView(SMALL_NEWS_PAGE, bigCat, smallCat);
             }
         });
 
         if(savedInstanceState == null){
-            displayView(MAIN_PAGE, null, null);
+            displayView(SMALL_NEWS_PAGE, bigCat, smallCat);
         }
     }
 
@@ -81,9 +85,6 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout smallCategoryView = (LinearLayout)bigCategoryView.findViewById(R.id.small_category);
             smallCategoryView.setVisibility(View.GONE);
 
-//            RelativeLayout bigCategoryRelativeLayout = (RelativeLayout)bigCategoryView.findViewById(R.id.big_category_relativelayout);
-//            bigCategoryRelativeLayout.setOnClickListener(new CustomBigCategoryTextClick(bigCategory));
-
             TextView bigCategoryTextView = (TextView)bigCategoryView.findViewById(R.id.big_category_textview);
             bigCategoryTextView.setText(bigCategory);
 
@@ -92,20 +93,13 @@ public class MainActivity extends AppCompatActivity {
 
             String[] smallCategories = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCategory);
 
-            for (int i = 0; i < smallCategories.length; i += 2) {
+            for (int i = 0; i < smallCategories.length; i++) {
                 View smallCategoryTemplate = View.inflate(this, R.layout.template_slide_menu_small_category, null);
 
-                TextView smallCategoryName1TextView = (TextView)smallCategoryTemplate.findViewById(R.id.small_category_1);
+                TextView smallCategoryName1TextView = (TextView) smallCategoryTemplate.findViewById(R.id.small_category_1);
                 smallCategoryName1TextView.setText(smallCategories[i]);
                 smallCategoryName1TextView.setOnClickListener(new CustomSmallCategoryClick(bigCategory, smallCategories[i]));
 
-                TextView smallCategoryName2TextView = (TextView)smallCategoryTemplate.findViewById(R.id.small_category_2);
-                try {
-                    smallCategoryName2TextView.setText(smallCategories[i+1]);
-                    smallCategoryName2TextView.setOnClickListener(new CustomSmallCategoryClick(bigCategory, smallCategories[i+1]));
-                } catch (ArrayIndexOutOfBoundsException e) {    // If no more item to display to the right, it is empty
-                    smallCategoryName2TextView.setText("");
-                }
 
                 smallCategoryView.addView(smallCategoryTemplate);
             }
@@ -172,6 +166,15 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v){
             smallCategoryView.setVisibility( isSmallCategoriesOpen ? View.GONE : View.VISIBLE );
             isSmallCategoriesOpen = !isSmallCategoriesOpen;
+            ImageView big_category_expand_button = (ImageView) v.findViewById(R.id.big_category_expand_button);
+            if(isSmallCategoriesOpen) {
+                big_category_expand_button.setImageResource(R.drawable.ic_upwards);
+
+            }else
+            {
+                big_category_expand_button.setImageResource(R.drawable.ic_dropdown);
+
+            }
         }
     }
 

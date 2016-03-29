@@ -30,7 +30,6 @@ public class NewsFeedRequest implements Response.Listener<JSONObject> {
         try {
             responseArr = response.getJSONArray("newsArr");
         }catch(Exception e) {
-            Log.i("ONE", "TWO");
             e.printStackTrace();
         }
 
@@ -44,7 +43,6 @@ public class NewsFeedRequest implements Response.Listener<JSONObject> {
                 String publisherString = object.getString("publisher");
                 String dateString = object.getJSONObject("date").getString("date");
                 String contentString = object.getString("contents");
-
                 news = new News(photoURLString, titleString, publisherString, dateString, contentString);
             }catch(Exception e) {
                 news = new News("Unknown", "Unknown", "Unknown", "Unknown", "Unknown");

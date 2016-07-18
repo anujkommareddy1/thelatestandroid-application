@@ -1,12 +1,19 @@
 package com.thelatest.thelatestmobile;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,8 +24,11 @@ import android.widget.TextView;
 import com.thelatest.thelatestmobile.Constants.KeyConstants;
 import com.thelatest.thelatestmobile.Constants.NewsCategoryConstants;
 import com.thelatest.thelatestmobile.fragments.BigNewsFragment;
+import com.thelatest.thelatestmobile.fragments.CategoriesFragment;
 import com.thelatest.thelatestmobile.fragments.MainFragment;
 import com.thelatest.thelatestmobile.fragments.SmallNewsFragment;
+import com.thelatest.thelatestmobile.fragments.SortFragment;
+import com.thelatest.thelatestmobile.fragments.WriteFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,10 +39,19 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mainToolbar;
     private ImageView hamburgerImageView;
     private ImageView logoImageView;
+    private FloatingActionButton floatingActionButton;
+    private Toolbar bottomToolbar;
+
+    private ImageView categoriesButton;
+    private ImageView writeButton;
+    private ImageView sortButton;
 
     private final int MAIN_PAGE = 0;
     private final int BIG_NEWS_PAGE = 1;
     private final int SMALL_NEWS_PAGE = 2;
+    private final int CATEGORIES_PAGE = 3;
+    private final int WRITE_PAGE = 4;
+    private final int SORT_PAGE = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,29 +61,76 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerlayout);
-        mainView = (FrameLayout)findViewById(R.id.main_view);
-        slideMenuView = (ScrollView)findViewById(R.id.slide_menu_scrollview);
-        setUpSlideMenuView();
+        this.drawerLayout = (DrawerLayout)findViewById(R.id.drawerlayout);
+        this.mainView = (FrameLayout)findViewById(R.id.main_view);
+        this.slideMenuView = (ScrollView)findViewById(R.id.slide_menu_scrollview);
+        this.setUpSlideMenuView();
 
-        mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
-        hamburgerImageView = (ImageView)findViewById(R.id.hamburger_imageview);
-        logoImageView = (ImageView)findViewById(R.id.thelatest_logo_imageview);
+        this.mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
+        this.hamburgerImageView = (ImageView)findViewById(R.id.hamburger_imageview);
+        this.logoImageView = (ImageView)findViewById(R.id.thelatest_logo_imageview);
+        this.floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton);
+        this.bottomToolbar = (Toolbar)findViewById(R.id.toolbarBotom);
+        this.bottomToolbar.setTag(bottomToolbar.getId(), false);
 
-        mainToolbar.setContentInsetsAbsolute(0, 0);
+        this.categoriesButton = (ImageView)findViewById(R.id.buttonCategories);
+        this.writeButton = (ImageView)findViewById(R.id.buttonWrite);
+        this.sortButton = (ImageView)findViewById(R.id.buttonSort);
+
+        this.mainToolbar.setContentInsetsAbsolute(0, 0);
 
         final String bigCat = NewsCategoryConstants.getBigCategories()[0];
         final String smallCat = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCat)[0];
 
+        this.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Animation bottomUp = AnimationUtils.loadAnimation(getBaseContext(), R.anim.bottom_up);
+                Animation animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out);
+                floatingActionButton.setAnimation(animFadeOut);
+                floatingActionButton.setVisibility(View.GONE);
+                bottomToolbar.startAnimation(bottomUp);
+                bottomToolbar.setVisibility(View.VISIBLE);
+                bottomToolbar.setTag(bottomToolbar.getId(), true);
+                Log.v("TAG", String.valueOf(bottomToolbar.getTag(bottomToolbar.getId())));
+            }
+        });
 
-        hamburgerImageView.setOnClickListener(new View.OnClickListener() {
+        this.categoriesButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                displayView(CATEGORIES_PAGE, bigCat, smallCat);
+                downBottomBar();
+            }
+        });
+
+        this.writeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                displayView(WRITE_PAGE, bigCat, smallCat);
+                downBottomBar();
+            }
+        });
+
+        this.sortButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                displayView(SORT_PAGE, bigCat, smallCat);
+                downBottomBar();
+            }
+        });
+
+        this.hamburgerImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(slideMenuView);
             }
         });
 
-        logoImageView.setOnClickListener(new View.OnClickListener() {
+
+        this.logoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 displayView(SMALL_NEWS_PAGE, bigCat, smallCat);
@@ -72,7 +138,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if(savedInstanceState == null){
-            displayView(SMALL_NEWS_PAGE, bigCat, smallCat);
+            this.displayView(SMALL_NEWS_PAGE, bigCat, smallCat);
+        }
+    }
+
+    public void openSearchActivity(View view) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+        this.bottomToolbar.setTag(bottomToolbar.getId(), false);
+    }
+
+    public void downBottomBar() {
+        if ((boolean)this.bottomToolbar.getTag(bottomToolbar.getId())) {
+            Animation bottomDown = AnimationUtils.loadAnimation(getBaseContext(), R.anim.bottom_down);
+            Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
+            floatingActionButton.setAnimation(animFadeIn);
+            floatingActionButton.setVisibility(View.VISIBLE);
+            this.bottomToolbar.startAnimation(bottomDown);
+            this.bottomToolbar.setVisibility(View.GONE);
+            this.bottomToolbar.setTag(bottomToolbar.getId(), false);
         }
     }
 
@@ -132,6 +216,15 @@ public class MainActivity extends AppCompatActivity {
                 arguments.putString(KeyConstants.SMALL_CATEGORY, smallCategory);
                 fragment.setArguments(arguments);
                 break;
+            case CATEGORIES_PAGE:
+                fragment = new CategoriesFragment();
+                break;
+            case WRITE_PAGE:
+                fragment = new WriteFragment();
+                break;
+            case SORT_PAGE:
+                fragment = new SortFragment();
+                break;
         }
 
         fragmentManager.beginTransaction()
@@ -168,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
             isSmallCategoriesOpen = !isSmallCategoriesOpen;
             ImageView big_category_expand_button = (ImageView) v.findViewById(R.id.big_category_expand_button);
             if(isSmallCategoriesOpen) {
-                big_category_expand_button.setImageResource(R.drawable.ic_upwards);
+                big_category_expand_button.setImageResource(R.drawable.ic_dropdown);
 
             }else
             {

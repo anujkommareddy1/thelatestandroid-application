@@ -45,8 +45,7 @@ public class BigNewsPagerAdapter extends PagerAdapter {
 
         final SmallNewsListViewAdapter smallNewsListViewAdapter = new SmallNewsListViewAdapter(context, R.layout.listviewitem_smallnews, new ArrayList<News>());
 
-        final SwipyRefreshLayout mSwipyRefreshLayout
-                = (SwipyRefreshLayout)mainView.findViewById(R.id.swipy_refresh_layout);
+        final SwipyRefreshLayout mSwipyRefreshLayout = (SwipyRefreshLayout)mainView.findViewById(R.id.swipy_refresh_layout);
         mSwipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(SwipyRefreshLayoutDirection direction) {

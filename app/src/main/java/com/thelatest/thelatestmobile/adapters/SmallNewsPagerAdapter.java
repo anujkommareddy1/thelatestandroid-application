@@ -1,10 +1,17 @@
 package com.thelatest.thelatestmobile.adapters;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,6 +19,7 @@ import com.android.volley.Request;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.thelatest.thelatestmobile.Constants.NewsCategoryConstants;
+import com.thelatest.thelatestmobile.MainActivity;
 import com.thelatest.thelatestmobile.R;
 import com.thelatest.thelatestmobile.objects.News;
 import com.thelatest.thelatestmobile.volley.Volley;
@@ -37,7 +45,7 @@ public class SmallNewsPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup collection, int position){
-        View mainView = View.inflate(context, R.layout.viewpageritem_smallnews, null);
+        final View mainView = View.inflate(context, R.layout.viewpageritem_smallnews, null);
         String[] smallCategories = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCategory);
 
         TextView smallNewsCategoryTitleTextView = (TextView)mainView.findViewById(R.id.category_title_textview);
@@ -112,6 +120,9 @@ public class SmallNewsPagerAdapter extends PagerAdapter {
 
                 Volley volley = Volley.getVolley(context);
                 volley.runRequest(Request.Method.POST, VolleyConstants.PROD_URL + VolleyConstants.NEWS_FETCH_ROUTE, params, new NewsFeedRequest(smallNewsListViewAdapter, mSwipyRefreshLayout), new CustomErrorListener("ERROR"));
+            }
+            if(context instanceof MainActivity){
+                ((MainActivity)context).downBottomBar();
             }
 //            mSwipyRefreshLayout.setRefreshing(false);
         }

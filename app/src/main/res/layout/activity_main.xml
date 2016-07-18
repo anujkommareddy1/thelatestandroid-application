@@ -41,6 +41,168 @@
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize" />
 
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingButton"
+                android:src="@drawable/ic_more_vert_black"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_margin="16dp"
+                android:layout_gravity="bottom|right"
+                android:clickable="true"
+                android:focusable="true"/>
+        </android.support.design.widget.CoordinatorLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.Toolbar
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/toolbarBotom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:focusable="true"
+                android:minHeight="?attr/actionBarSize"
+                android:layout_alignParentBottom="true"
+                app:theme="@style/Base.Theme.AppCompat.CompactMenu"
+                >
+
+                <LinearLayout
+                    android:id="@+id/toolbarmenucontainer"
+                    android:layout_width="match_parent"
+                    android:weightSum="4"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:clickable="true"
+                        android:onClick="openSearchActivity" >
+
+                        <ImageButton
+                            android:id="@+id/buttonSearch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_search_black"
+                            android:text="@string/bottom_bar_search"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:text="@string/bottom_bar_search"
+                            android:textColor="#A80000"/>
+
+                    </LinearLayout>
+
+                    <View android:layout_height="fill_parent"
+                        android:layout_width="2px"
+                        android:background="#90909090"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+
+                        <ImageButton
+                            android:id="@+id/buttonCategories"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_more_horiz_black" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:text="@string/bottom_bar_categories"
+                            android:textColor="#A80000"/>
+
+                    </LinearLayout>
+
+                    <View android:layout_height="fill_parent"
+                        android:layout_width="2px"
+                        android:background="#90909090"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+
+                        <ImageButton
+                            android:id="@+id/buttonWrite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_mode_edit_black" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:text="@string/bottom_bar_write"
+                            android:textColor="#A80000"/>
+
+                    </LinearLayout>
+
+                    <View android:layout_height="fill_parent"
+                        android:layout_width="2px"
+                        android:background="#90909090"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+
+                        <ImageButton
+                            android:id="@+id/buttonSort"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_sort_black" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:text="@string/bottom_bar_sort"
+                            android:textColor="#A80000"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+        </RelativeLayout>
+
     </FrameLayout>
 
     <!-- Listview to display slider menu -->

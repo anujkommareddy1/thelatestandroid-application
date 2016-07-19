@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     private Toolbar bottomToolbar;
 
+    private LinearLayout searchSquare;
+    private LinearLayout categoriesSquare;
+    private LinearLayout writeSquare;
+    private LinearLayout sortSquare;
+
     private ImageView categoriesButton;
     private ImageView writeButton;
     private ImageView sortButton;
@@ -52,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     private final int CATEGORIES_PAGE = 3;
     private final int WRITE_PAGE = 4;
     private final int SORT_PAGE = 5;
+
+    private final String bigCat = NewsCategoryConstants.getBigCategories()[0];
+    private final String smallCat = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCat)[0];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +79,20 @@ public class MainActivity extends AppCompatActivity {
         this.logoImageView = (ImageView)findViewById(R.id.thelatest_logo_imageview);
         this.floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton);
         this.bottomToolbar = (Toolbar)findViewById(R.id.toolbarBotom);
-        this.bottomToolbar.setTag(bottomToolbar.getId(), false);
+        if (this.bottomToolbar != null) {
+            this.bottomToolbar.setTag(bottomToolbar.getId(), false);
+        }
+
+        this.searchSquare = (LinearLayout)findViewById(R.id.searchSquare);
+        this.categoriesSquare = (LinearLayout)findViewById(R.id.categoriesSquare);
+        this.writeSquare = (LinearLayout)findViewById(R.id.writeSquare);
+        this.sortSquare = (LinearLayout)findViewById(R.id.sortSquare);
 
         this.categoriesButton = (ImageView)findViewById(R.id.buttonCategories);
         this.writeButton = (ImageView)findViewById(R.id.buttonWrite);
         this.sortButton = (ImageView)findViewById(R.id.buttonSort);
 
         this.mainToolbar.setContentInsetsAbsolute(0, 0);
-
-        final String bigCat = NewsCategoryConstants.getBigCategories()[0];
-        final String smallCat = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCat)[0];
 
         this.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -91,34 +103,58 @@ public class MainActivity extends AppCompatActivity {
                 bottomToolbar.startAnimation(bottomUp);
                 bottomToolbar.setVisibility(View.VISIBLE);
                 bottomToolbar.setTag(bottomToolbar.getId(), true);
-                Log.v("TAG", String.valueOf(bottomToolbar.getTag(bottomToolbar.getId())));
+            }
+        });
+
+        this.searchSquare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSearchActivity(view);
+            }
+        });
+
+        this.categoriesSquare.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                displayFragmentCategories();
+            }
+        });
+
+        this.writeSquare.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                displayFragmentWrite();
+            }
+        });
+
+        this.sortSquare.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                displayFragmentSort();
             }
         });
 
         this.categoriesButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                displayView(CATEGORIES_PAGE, bigCat, smallCat);
-                downBottomBar();
+                displayFragmentCategories();
             }
         });
 
         this.writeButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                displayView(WRITE_PAGE, bigCat, smallCat);
-                downBottomBar();
+                displayFragmentWrite();
             }
         });
 
         this.sortButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                displayView(SORT_PAGE, bigCat, smallCat);
-                downBottomBar();
+                displayFragmentSort();
             }
         });
 
@@ -128,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(slideMenuView);
             }
         });
-
 
         this.logoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +181,23 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
         this.bottomToolbar.setTag(bottomToolbar.getId(), false);
+    }
+
+    public void displayFragmentCategories() {
+        displayFragment(CATEGORIES_PAGE, bigCat, smallCat);
+    }
+
+    public void displayFragmentWrite() {
+        displayFragment(WRITE_PAGE, bigCat, smallCat);
+    }
+
+    public void displayFragmentSort() {
+        displayFragment(SORT_PAGE, bigCat, smallCat);
+    }
+
+    private void displayFragment(int page, String bigCat, String smallCat) {
+        displayView(page, bigCat, smallCat);
+        downBottomBar();
     }
 
     public void downBottomBar() {

@@ -58,8 +58,28 @@ public class SmallNewsPagerAdapter extends PagerAdapter {
         CustomOnRefreshListener customOnRefreshListener = new CustomOnRefreshListener(smallCategory, smallNewsListViewAdapter, mSwipyRefreshLayout);
         mSwipyRefreshLayout.setOnRefreshListener(customOnRefreshListener);
 
+        mSwipyRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(context instanceof MainActivity){
+                    ((MainActivity)context).downBottomBar();
+                }
+
+                return false;
+            }
+        });
+
         ListView listView = (ListView)mainView.findViewById(R.id.listview);
         listView.setAdapter(smallNewsListViewAdapter);
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(context instanceof MainActivity){
+                    ((MainActivity)context).downBottomBar();
+                }
+                return false;
+            }
+        });
 
         collection.addView(mainView);
 
@@ -120,9 +140,6 @@ public class SmallNewsPagerAdapter extends PagerAdapter {
 
                 Volley volley = Volley.getVolley(context);
                 volley.runRequest(Request.Method.POST, VolleyConstants.PROD_URL + VolleyConstants.NEWS_FETCH_ROUTE, params, new NewsFeedRequest(smallNewsListViewAdapter, mSwipyRefreshLayout), new CustomErrorListener("ERROR"));
-            }
-            if(context instanceof MainActivity){
-                ((MainActivity)context).downBottomBar();
             }
 //            mSwipyRefreshLayout.setRefreshing(false);
         }

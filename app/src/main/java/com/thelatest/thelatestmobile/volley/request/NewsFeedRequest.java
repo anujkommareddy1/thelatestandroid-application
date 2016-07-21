@@ -1,6 +1,5 @@
 package com.thelatest.thelatestmobile.volley.request;
 
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.android.volley.Response;

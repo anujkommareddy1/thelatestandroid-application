@@ -40,16 +40,17 @@ public class MainActivity extends AppCompatActivity {
     private ImageView hamburgerImageView;
     private ImageView logoImageView;
     private FloatingActionButton floatingActionButton;
-    private Toolbar bottomToolbar;
 
-    private LinearLayout searchSquare;
-    private LinearLayout categoriesSquare;
-    private LinearLayout writeSquare;
-    private LinearLayout sortSquare;
+    // private Toolbar bottomToolbar;
 
-    private ImageView categoriesButton;
-    private ImageView writeButton;
-    private ImageView sortButton;
+    //private LinearLayout searchSquare;
+    //private LinearLayout categoriesSquare;
+    //private LinearLayout writeSquare;
+    //private LinearLayout sortSquare;
+
+    //private ImageView categoriesButton;
+    //private ImageView writeButton;
+    //private ImageView sortButton;
 
     private final int MAIN_PAGE = 0;
     private final int BIG_NEWS_PAGE = 1;
@@ -78,85 +79,86 @@ public class MainActivity extends AppCompatActivity {
         this.hamburgerImageView = (ImageView)findViewById(R.id.hamburger_imageview);
         this.logoImageView = (ImageView)findViewById(R.id.thelatest_logo_imageview);
         this.floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton);
-        this.bottomToolbar = (Toolbar)findViewById(R.id.toolbarBotom);
-        if (this.bottomToolbar != null) {
-            this.bottomToolbar.setTag(bottomToolbar.getId(), false);
-        }
+        //this.bottomToolbar = (Toolbar)findViewById(R.id.toolbarBotom);
+        //if (this.bottomToolbar != null) {
+        //    this.bottomToolbar.setTag(bottomToolbar.getId(), false);
+        //}
 
-        this.searchSquare = (LinearLayout)findViewById(R.id.searchSquare);
-        this.categoriesSquare = (LinearLayout)findViewById(R.id.categoriesSquare);
-        this.writeSquare = (LinearLayout)findViewById(R.id.writeSquare);
-        this.sortSquare = (LinearLayout)findViewById(R.id.sortSquare);
+        //this.searchSquare = (LinearLayout)findViewById(R.id.searchSquare);
+        //this.categoriesSquare = (LinearLayout)findViewById(R.id.categoriesSquare);
+        //this.writeSquare = (LinearLayout)findViewById(R.id.writeSquare);
+        //this.sortSquare = (LinearLayout)findViewById(R.id.sortSquare);
 
-        this.categoriesButton = (ImageView)findViewById(R.id.buttonCategories);
-        this.writeButton = (ImageView)findViewById(R.id.buttonWrite);
-        this.sortButton = (ImageView)findViewById(R.id.buttonSort);
+        //this.categoriesButton = (ImageView)findViewById(R.id.buttonCategories);
+        //this.writeButton = (ImageView)findViewById(R.id.buttonWrite);
+        //this.sortButton = (ImageView)findViewById(R.id.buttonSort);
 
         this.mainToolbar.setContentInsetsAbsolute(0, 0);
 
         this.floatingActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Animation bottomUp = AnimationUtils.loadAnimation(getBaseContext(), R.anim.bottom_up);
+                openSearchActivity(v);
+                /*Animation bottomUp = AnimationUtils.loadAnimation(getBaseContext(), R.anim.bottom_up);
                 Animation animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_out);
                 floatingActionButton.setAnimation(animFadeOut);
                 floatingActionButton.setVisibility(View.GONE);
                 bottomToolbar.startAnimation(bottomUp);
                 bottomToolbar.setVisibility(View.VISIBLE);
-                bottomToolbar.setTag(bottomToolbar.getId(), true);
+                bottomToolbar.setTag(bottomToolbar.getId(), true);*/
             }
         });
 
-        this.searchSquare.setOnClickListener(new View.OnClickListener() {
+        /*this.searchSquare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openSearchActivity(view);
             }
-        });
+        });*/
 
-        this.categoriesSquare.setOnClickListener(new View.OnClickListener() {
+        /*this.categoriesSquare.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 displayFragmentCategories();
             }
-        });
+        });*/
 
-        this.writeSquare.setOnClickListener(new View.OnClickListener() {
+        /*this.writeSquare.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 displayFragmentWrite();
             }
-        });
+        });*/
 
-        this.sortSquare.setOnClickListener(new View.OnClickListener() {
+        /*this.sortSquare.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 displayFragmentSort();
             }
-        });
+        });*/
 
-        this.categoriesButton.setOnClickListener(new View.OnClickListener() {
+        /*this.categoriesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 displayFragmentCategories();
             }
-        });
+        });*/
 
-        this.writeButton.setOnClickListener(new View.OnClickListener() {
+        /*this.writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 displayFragmentWrite();
             }
-        });
+        });*/
 
-        this.sortButton.setOnClickListener(new View.OnClickListener() {
+        /*this.sortButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 displayFragmentSort();
             }
-        });
+        });*/
 
         this.hamburgerImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     public void openSearchActivity(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
-        this.bottomToolbar.setTag(bottomToolbar.getId(), false);
+        //this.bottomToolbar.setTag(bottomToolbar.getId(), false);
     }
 
     public void displayFragmentCategories() {
@@ -201,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void downBottomBar() {
-        if ((boolean)this.bottomToolbar.getTag(bottomToolbar.getId())) {
+        /*if ((boolean)this.bottomToolbar.getTag(bottomToolbar.getId())) {
             Animation bottomDown = AnimationUtils.loadAnimation(getBaseContext(), R.anim.bottom_down);
             Animation animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
             floatingActionButton.setAnimation(animFadeIn);
@@ -209,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             this.bottomToolbar.startAnimation(bottomDown);
             this.bottomToolbar.setVisibility(View.GONE);
             this.bottomToolbar.setTag(bottomToolbar.getId(), false);
-        }
+        }*/
     }
 
     private void setUpSlideMenuView(){

@@ -3,6 +3,7 @@ package com.thelatest.thelatestmobile;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
@@ -313,8 +314,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v){
             Animation slideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down_menu);
-            smallCategoryView.startAnimation(slideDown);
-            smallCategoryView.setVisibility( isSmallCategoriesOpen ? View.GONE : View.VISIBLE );
+            Animation fadeout = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
+            if (isSmallCategoriesOpen) {
+                smallCategoryView.startAnimation(fadeout);
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        smallCategoryView.setVisibility(View.GONE);
+                    }
+                }, 500);
+            } else {
+                smallCategoryView.startAnimation(slideDown);
+                smallCategoryView.setVisibility(View.VISIBLE);
+            }
+
             isSmallCategoriesOpen = !isSmallCategoriesOpen;
             ImageView big_category_expand_button = (ImageView) v.findViewById(R.id.big_category_expand_button);
             if(isSmallCategoriesOpen) {

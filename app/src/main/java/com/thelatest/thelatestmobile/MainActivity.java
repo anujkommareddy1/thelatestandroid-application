@@ -9,7 +9,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -28,6 +27,9 @@ import com.thelatest.thelatestmobile.fragments.MainFragment;
 import com.thelatest.thelatestmobile.fragments.SmallNewsFragment;
 import com.thelatest.thelatestmobile.fragments.SortFragment;
 import com.thelatest.thelatestmobile.fragments.WriteFragment;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final String bigCat = NewsCategoryConstants.getBigCategories()[0];
     private final String smallCat = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCat)[0];
+
+    private Map<RelativeLayout, Boolean> mapMenus = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,19 +231,22 @@ public class MainActivity extends AppCompatActivity {
             bigCategoryTextView.setText(bigCategory);
 
             RelativeLayout bigCategoryExpandRelativeLayout = (RelativeLayout)bigCategoryView.findViewById(R.id.big_category_expand);
-            bigCategoryExpandRelativeLayout.setOnClickListener(new CustomBigCategoryArrowClick(smallCategoryView, bigCategoryExpandRelativeLayout));
+            this.mapMenus.put(bigCategoryExpandRelativeLayout, false);
+            bigCategoryExpandRelativeLayout.setOnClickListener(new CustomBigCategoryArrowClick(smallCategoryView, bigCategoryExpandRelativeLayout, this.mapMenus));
 
             String[] smallCategories = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCategory);
 
-            for (int i = 0; i < smallCategories.length; i++) {
-                View smallCategoryTemplate = View.inflate(this, R.layout.template_slide_menu_small_category, null);
+            if (smallCategories != null) {
+                for (String smallCategory : smallCategories) {
+                    View smallCategoryTemplate = View.inflate(this, R.layout.template_slide_menu_small_category, null);
 
-                TextView smallCategoryName1TextView = (TextView) smallCategoryTemplate.findViewById(R.id.small_category_1);
-                smallCategoryName1TextView.setText(smallCategories[i]);
-                smallCategoryName1TextView.setOnClickListener(new CustomSmallCategoryClick(bigCategory, smallCategories[i]));
+                    TextView smallCategoryName1TextView = (TextView) smallCategoryTemplate.findViewById(R.id.small_category_1);
+                    smallCategoryName1TextView.setText(smallCategory);
+                    smallCategoryName1TextView.setOnClickListener(new CustomSmallCategoryClick(bigCategory, smallCategory));
 
 
-                smallCategoryView.addView(smallCategoryTemplate);
+                    smallCategoryView.addView(smallCategoryTemplate);
+                }
             }
 
             bigCategoryLine.setZ(2);
@@ -307,15 +314,25 @@ public class MainActivity extends AppCompatActivity {
         private View smallCategoryView;
         private boolean isSmallCategoriesOpen;
         private RelativeLayout clickableArea;
+        private Map<RelativeLayout, Boolean> mapMenus;
 
-        public CustomBigCategoryArrowClick(View smallCategoryArea, RelativeLayout clickableArea){
+        public CustomBigCategoryArrowClick(View smallCategoryArea, RelativeLayout clickableArea, Map<RelativeLayout, Boolean> mapMenus){
             this.smallCategoryView = smallCategoryArea;
             this.isSmallCategoriesOpen = false;
             this.clickableArea = clickableArea;
+            this.mapMenus = mapMenus;
         }
 
         @Override
         public void onClick(View v){
+
+            for (Map.Entry<RelativeLayout, Boolean> entry : mapMenus.entrySet()) {
+                if (entry.getValue() && entry.getKey() != v) {
+                    mapMenus.put(entry.getKey(), false);
+                    entry.getKey().callOnClick();
+                }
+            }
+
             Animation slideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down_menu);
             Animation fadeout = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
 
@@ -331,11 +348,13 @@ public class MainActivity extends AppCompatActivity {
                         clickableArea.setClickable(true);
                     }
                 }, 500);
+                mapMenus.put((RelativeLayout)v, false);
             } else {
                 clickableArea.setClickable(false);
                 smallCategoryView.startAnimation(slideDown);
                 smallCategoryView.setVisibility(View.VISIBLE);
                 clickableArea.setClickable(true);
+                mapMenus.put((RelativeLayout)v, true);
             }
 
             isSmallCategoriesOpen = !isSmallCategoriesOpen;
@@ -343,8 +362,7 @@ public class MainActivity extends AppCompatActivity {
             if(isSmallCategoriesOpen) {
                 big_category_expand_button.setImageResource(R.drawable.ic_dropup);
 
-            }else
-            {
+            } else {
                 big_category_expand_button.setImageResource(R.drawable.ic_dropdown);
 
             }

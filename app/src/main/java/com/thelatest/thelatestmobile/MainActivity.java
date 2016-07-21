@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -226,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             bigCategoryTextView.setText(bigCategory);
 
             RelativeLayout bigCategoryExpandRelativeLayout = (RelativeLayout)bigCategoryView.findViewById(R.id.big_category_expand);
-            bigCategoryExpandRelativeLayout.setOnClickListener(new CustomBigCategoryArrowClick(smallCategoryView));
+            bigCategoryExpandRelativeLayout.setOnClickListener(new CustomBigCategoryArrowClick(smallCategoryView, bigCategoryExpandRelativeLayout));
 
             String[] smallCategories = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCategory);
 
@@ -305,17 +306,21 @@ public class MainActivity extends AppCompatActivity {
     private class CustomBigCategoryArrowClick implements View.OnClickListener{
         private View smallCategoryView;
         private boolean isSmallCategoriesOpen;
+        private RelativeLayout clickableArea;
 
-        public CustomBigCategoryArrowClick(View smallCategoryArea){
+        public CustomBigCategoryArrowClick(View smallCategoryArea, RelativeLayout clickableArea){
             this.smallCategoryView = smallCategoryArea;
-            isSmallCategoriesOpen = false;
+            this.isSmallCategoriesOpen = false;
+            this.clickableArea = clickableArea;
         }
 
         @Override
         public void onClick(View v){
             Animation slideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down_menu);
             Animation fadeout = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
+
             if (isSmallCategoriesOpen) {
+                clickableArea.setClickable(false);
                 smallCategoryView.startAnimation(fadeout);
                 new Handler().postDelayed(new Runnable()
                 {
@@ -323,11 +328,14 @@ public class MainActivity extends AppCompatActivity {
                     public void run()
                     {
                         smallCategoryView.setVisibility(View.GONE);
+                        clickableArea.setClickable(true);
                     }
                 }, 500);
             } else {
+                clickableArea.setClickable(false);
                 smallCategoryView.startAnimation(slideDown);
                 smallCategoryView.setVisibility(View.VISIBLE);
+                clickableArea.setClickable(true);
             }
 
             isSmallCategoriesOpen = !isSmallCategoriesOpen;

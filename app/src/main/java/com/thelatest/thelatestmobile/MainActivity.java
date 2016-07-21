@@ -333,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
             isSmallCategoriesOpen = !isSmallCategoriesOpen;
             ImageView big_category_expand_button = (ImageView) v.findViewById(R.id.big_category_expand_button);
             if(isSmallCategoriesOpen) {
-                big_category_expand_button.setImageResource(R.drawable.ic_dropdown);
+                big_category_expand_button.setImageResource(R.drawable.ic_dropup);
 
             }else
             {

@@ -8,9 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -220,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
         for(String bigCategory : NewsCategoryConstants.getBigCategories()){
             View bigCategoryView = View.inflate(this, R.layout.template_slide_menu_big_category, null);
 
+            LinearLayout bigCategoryLine = (LinearLayout)bigCategoryView.findViewById(R.id.big_category);
             LinearLayout smallCategoryView = (LinearLayout)bigCategoryView.findViewById(R.id.small_category);
             smallCategoryView.setVisibility(View.GONE);
 
@@ -241,6 +239,9 @@ public class MainActivity extends AppCompatActivity {
 
                 smallCategoryView.addView(smallCategoryTemplate);
             }
+
+            bigCategoryLine.setZ(2);
+            smallCategoryView.setZ(1);
 
             newsCategoryLayout.addView(bigCategoryView);
         }
@@ -311,6 +312,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v){
+            Animation slideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down_menu);
+            smallCategoryView.startAnimation(slideDown);
             smallCategoryView.setVisibility( isSmallCategoriesOpen ? View.GONE : View.VISIBLE );
             isSmallCategoriesOpen = !isSmallCategoriesOpen;
             ImageView big_category_expand_button = (ImageView) v.findViewById(R.id.big_category_expand_button);

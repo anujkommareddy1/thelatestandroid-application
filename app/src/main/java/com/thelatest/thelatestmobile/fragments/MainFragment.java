@@ -10,7 +10,7 @@ import com.thelatest.thelatestmobile.R;
 /**
  * Created by Jesse on 10/12/15.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends android.support.v4.app.Fragment {
 
     private View rootView;
 

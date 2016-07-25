@@ -1,0 +1,70 @@
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginTop="18dp"
+        android:id="@+id/view_pager_dots_layout"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@android:color/transparent"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/dot_1"
+            android:tag="dot1"
+            android:src="@drawable/dot_selected"
+            android:layout_margin="3dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/dot_2"
+            android:tag="dot2"
+            android:src="@drawable/dot_unselected"
+            android:layout_margin="3dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/dot_3"
+            android:tag="dot3"
+            android:src="@drawable/dot_unselected"
+            android:layout_margin="3dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/dot_4"
+            android:tag="dot4"
+            android:src="@drawable/dot_unselected"
+            android:layout_margin="3dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/dot_5"
+            android:tag="dot5"
+            android:src="@drawable/dot_unselected"
+            android:layout_margin="3dp"/>
+
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/view_pager_bigcat">
+
+    </android.support.v4.view.ViewPager>
+</FrameLayout>

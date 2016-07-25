@@ -17,6 +17,7 @@ import com.thelatest.thelatestmobile.objects.News;
 import com.thelatest.thelatestmobile.volley.Volley;
 import com.thelatest.thelatestmobile.volley.VolleyConstants;
 import com.thelatest.thelatestmobile.volley.request.CustomErrorListener;
+import com.thelatest.thelatestmobile.volley.request.FeedsRequest;
 import com.thelatest.thelatestmobile.volley.request.NewsFeedRequest;
 
 import org.json.JSONObject;
@@ -40,11 +41,12 @@ public class SmallNewsPagerAdapter extends PagerAdapter {
         View mainView = View.inflate(context, R.layout.viewpageritem_smallnews, null);
         String[] smallCategories = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCategory);
 
+
         TextView smallNewsCategoryTitleTextView = (TextView)mainView.findViewById(R.id.category_title_textview);
         String smallCategory = smallCategories[position];
         smallNewsCategoryTitleTextView.setText(smallCategory);
 
-        SmallNewsListViewAdapter smallNewsListViewAdapter = new SmallNewsListViewAdapter(context, R.layout.listviewitem_smallnews, new ArrayList<News>());
+        SmallNewsListViewAdapter smallNewsListViewAdapter = new SmallNewsListViewAdapter(context, R.layout.bigcat_listview, new ArrayList<News>());
 
         SwipyRefreshLayout mSwipyRefreshLayout = (SwipyRefreshLayout)mainView.findViewById(R.id.swipy_refresh_layout);
         CustomOnRefreshListener customOnRefreshListener = new CustomOnRefreshListener(smallCategory, smallNewsListViewAdapter, mSwipyRefreshLayout);
@@ -76,7 +78,7 @@ public class SmallNewsPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
-    public class CustomOnRefreshListener implements SwipyRefreshLayout.OnRefreshListener {
+    public class CustomOnRefreshListener implements SwipyRefreshLayout.OnRefreshListener{
 
         private int currentStartIndex;
         private String smallCategoryString;
@@ -98,14 +100,18 @@ public class SmallNewsPagerAdapter extends PagerAdapter {
                 onRefresh(SwipyRefreshLayoutDirection.BOTTOM);
             }
             else if (direction == SwipyRefreshLayoutDirection.BOTTOM) {
+                News news;
+                BigCategoryListViewAdapter dummyBigCategoryListViewAdapter =null;
+
+
                 JSONObject params = new JSONObject();
 
                 try {
                     params.put("slug", NewsCategoryConstants.getCategorySlug(smallCategoryString));
                     params.put("startIndex", currentStartIndex);
-                    params.put("endIndex", currentStartIndex + 1);
-                    currentStartIndex += 2;
-                } catch (Exception e) {
+                    params.put("endIndex", currentStartIndex + 4);
+                    currentStartIndex += 5;
+                }catch (Exception e) {
                     Log.e(getClass().toString(), "Error setting params for communication with server");
                     e.printStackTrace();
                 }
@@ -113,7 +119,6 @@ public class SmallNewsPagerAdapter extends PagerAdapter {
                 Volley volley = Volley.getVolley(context);
                 volley.runRequest(Request.Method.POST, VolleyConstants.PROD_URL + VolleyConstants.NEWS_FETCH_ROUTE, params, new NewsFeedRequest(smallNewsListViewAdapter, mSwipyRefreshLayout), new CustomErrorListener("ERROR"));
             }
-//            mSwipyRefreshLayout.setRefreshing(false);
         }
     }
 }

@@ -1,35 +1,35 @@
 package com.thelatest.thelatestmobile.volley.request;
 
-import android.util.Log;
-import android.widget.ArrayAdapter;
-
 import com.android.volley.Response;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.thelatest.thelatestmobile.adapters.BigCategoryListViewAdapter;
 import com.thelatest.thelatestmobile.objects.News;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
- * Created by Logan on 11/24/15.
+ * Created by Pedro on 7/18/2016.
  */
-public class NewsFeedRequest implements Response.Listener<JSONObject> {
+public class FeedsRequest implements Response.Listener<JSONObject>{
 
-    private ArrayAdapter<News> newsListViewAdapter;
-    private SwipyRefreshLayout mSwipyRefreshLayout;
+    private BigCategoryListViewAdapter mBigCategoryListViewAdapter;
+    private ArrayList<News> mNews;
+    private SwipyRefreshLayout mSwipyRefresh;
+    private ImageLoader imageLoader;
 
-    public NewsFeedRequest(ArrayAdapter<News> newsListViewAdapter, SwipyRefreshLayout mSwipyRefreshLayout){
-        this.newsListViewAdapter = newsListViewAdapter;
-        this.mSwipyRefreshLayout = mSwipyRefreshLayout;
-
+    public FeedsRequest(BigCategoryListViewAdapter bclv, ArrayList<News> n, SwipyRefreshLayout swipy){
+        this.mBigCategoryListViewAdapter = bclv;
+        this.mSwipyRefresh = swipy;
+        this.mNews = n;
 
     }
-
     @Override
-    public void onResponse(JSONObject response){
+    public void onResponse(JSONObject response) {
+
             JSONArray responseArr = null;
             try {
                 responseArr = response.getJSONArray("newsArr");
@@ -39,7 +39,6 @@ public class NewsFeedRequest implements Response.Listener<JSONObject> {
 
             for (int i = 0; i < responseArr.length(); i++) {
                 News news = null;
-
                 try {
                     JSONObject object = responseArr.getJSONObject(i);
                     String photoURLString = object.getString("photo");
@@ -54,13 +53,10 @@ public class NewsFeedRequest implements Response.Listener<JSONObject> {
                 } catch (Exception e) {
                     news = new News("Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown","Unknown");
                 }
-
-                newsListViewAdapter.add(news);
-
+                mNews.add(news);
             }
-        newsListViewAdapter.notifyDataSetChanged();
-        mSwipyRefreshLayout.setRefreshing(false);
-        }
+        mBigCategoryListViewAdapter.notifyDataSetChanged();
+        mSwipyRefresh.setRefreshing(false);
 
-
+    }
 }

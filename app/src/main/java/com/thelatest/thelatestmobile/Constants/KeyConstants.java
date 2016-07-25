@@ -13,6 +13,8 @@ public class KeyConstants {
     public static final String NEWS_FROM = "FROM";
     public static final String NEWS_CONTENTS = "CONTENTS";
     public static final String NEWS_PIC = "PIC";
+    public static final String NEWS_ID = "ID";
+    public static final String NEWS_URL = "URL";
 
     public static final String IMAGEVIEW_POSITION = "IMAGEVIEW_POSITION";
 }

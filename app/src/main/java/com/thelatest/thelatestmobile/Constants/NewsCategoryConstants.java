@@ -224,7 +224,7 @@ public class NewsCategoryConstants {
             case PRODUCTS:
                 return new String[]{ELECTRONICS, FASHION, FITNESS, FOOD_DRINK, HOME_GARDEN, AUTO, TRAVEL, GAMES, BOOKS, PERSONAL_FINANCE};
             case EXTRA:
-                return new String[]{TODAY, FEEL_GOOD, SPIRITUALITY, HOBBIES, PETS, WEIRD, DISCOVERY};
+                return new String[]{FEEL_GOOD, SPIRITUALITY, HOBBIES, PETS, WEIRD, DISCOVERY};
         }
         return null;
     }

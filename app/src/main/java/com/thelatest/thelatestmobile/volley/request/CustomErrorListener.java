@@ -19,6 +19,7 @@ public class CustomErrorListener implements Response.ErrorListener {
     @Override
     public void onErrorResponse(VolleyError error){
         Log.i(this.listeningType, "Something wrong while listening Volley");
+        Log.i("Oi", "Errrooorr");
         error.printStackTrace();
     }
 }

@@ -19,4 +19,9 @@
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_activity_news">NewsActivity</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_page_adapter">PageAdapterActivity</string>
+    <string name="title_activity_news_activity_sources">NewsActivitySources</string>
+
 </resources>

@@ -1,0 +1,138 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context="com.thelatest.thelatestmobile.fragments.FinalStoryFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:background="#000000">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="STORY"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"></TextView>
+
+    </RelativeLayout>
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="#FFFFFF"
+        android:weightSum="1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:layout_marginBottom="5dp"
+        android:textStyle="normal"
+        android:textSize="14dip"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:id="@+id/finalstory_news_title" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.12">
+
+        <RelativeLayout
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:id="@+id/finalstory_imageView" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:maxLines="5"
+            android:ellipsize="end"
+            android:id="@+id/finalstory_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+
+            android:ellipsize="end"
+            android:id="@+id/finalstory_date" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:clickable="true"
+            android:textStyle="bold"
+            android:text="READ FULL ARTICLE"
+            android:textColor="@color/the_latest_red"
+            android:layout_gravity="center_horizontal"
+            android:ellipsize="end"
+            android:id="@+id/finalstory_readfull" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/finalstory_sourceid"
+            android:text="Sources"
+            android:textColor="#000000"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/finalstory_source_layout">
+
+            <RelativeLayout
+                android:id="@+id/source_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Loading more sources"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

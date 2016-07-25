@@ -15,7 +15,7 @@ import com.thelatest.thelatestmobile.Constants.NewsCategoryConstants;
 /**
  * Created by Jesse on 10/21/15.
  */
-public class BigNewsFragment extends Fragment{
+public class BigNewsFragment extends android.support.v4.app.Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

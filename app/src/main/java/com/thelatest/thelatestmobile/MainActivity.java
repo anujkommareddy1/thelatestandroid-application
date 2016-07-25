@@ -2,10 +2,14 @@ package com.thelatest.thelatestmobile;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -13,12 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.thelatest.thelatestmobile.Constants.KeyConstants;
 import com.thelatest.thelatestmobile.Constants.NewsCategoryConstants;
+import com.thelatest.thelatestmobile.fragments.BigCategoryFragments;
 import com.thelatest.thelatestmobile.fragments.BigNewsFragment;
 import com.thelatest.thelatestmobile.fragments.MainFragment;
 import com.thelatest.thelatestmobile.fragments.SmallNewsFragment;
+import com.thelatest.thelatestmobile.fragments.TileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,11 +41,15 @@ public class MainActivity extends AppCompatActivity {
     private final int MAIN_PAGE = 0;
     private final int BIG_NEWS_PAGE = 1;
     private final int SMALL_NEWS_PAGE = 2;
+    private final int TILE_FRAGMENT = 3;
+    private  final int BIG_CATEGORY_PAGE = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -57,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         final String smallCat = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCat)[0];
 
 
+
+
+
+
         hamburgerImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,21 +80,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         logoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayView(SMALL_NEWS_PAGE, bigCat, smallCat);
+                displayView(BIG_CATEGORY_PAGE, bigCat, smallCat);
             }
         });
 
         if(savedInstanceState == null){
-            displayView(SMALL_NEWS_PAGE, bigCat, smallCat);
+            displayView(BIG_CATEGORY_PAGE, bigCat, smallCat);
+        }
+      /*  if(getIntent().getStringExtra("Position")!=null){
+            displayView(SMALL_NEWS_PAGE,getIntent().getStringExtra("Position"),smallCat);
+        }*/
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+         if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        }
+        else {
+            getSupportFragmentManager().popBackStack();
         }
     }
 
     private void setUpSlideMenuView(){
         LinearLayout newsCategoryLayout = (LinearLayout)findViewById(R.id.slide_menu_view);
-
+        String[] bigCategoryEdited = new String[]{"TOP STORIES","ENTERTAINMENT","SPORTS", "PRODUCTS","EXTRA"};
         for(String bigCategory : NewsCategoryConstants.getBigCategories()){
             View bigCategoryView = View.inflate(this, R.layout.template_slide_menu_big_category, null);
 
@@ -110,33 +142,52 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayView(int pageType, String bigCategory, String smallCategory){
         Fragment fragment = null;
+        android.support.v4.app.Fragment mFragment = null;
         Bundle arguments = null;
+        FragmentManager mFragmentManager = getSupportFragmentManager();
         android.app.FragmentManager fragmentManager = getFragmentManager();
 
         switch(pageType){
             case MAIN_PAGE:
-                fragment = new MainFragment();
+
+                mFragment = new MainFragment();
                 break;
 
             case BIG_NEWS_PAGE:
-                fragment = new BigNewsFragment();
+                mFragment = new BigNewsFragment();
                 arguments = new Bundle();
                 arguments.putString(KeyConstants.BIG_CATEGORY, bigCategory);
                 fragment.setArguments(arguments);
                 break;
 
             case SMALL_NEWS_PAGE:
-                fragment = new SmallNewsFragment();
+               // fragment = new SmallNewsFragment();
+                mFragment = new SmallNewsFragment();
                 arguments = new Bundle();
                 arguments.putString(KeyConstants.BIG_CATEGORY, bigCategory);
                 arguments.putString(KeyConstants.SMALL_CATEGORY, smallCategory);
-                fragment.setArguments(arguments);
+                 mFragment.setArguments(arguments);
                 break;
-        }
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_fragment_view, fragment)
-                .commit();
+            case TILE_FRAGMENT:
+                mFragment = new TileFragment();
+                arguments = new Bundle();
+                arguments.putString(KeyConstants.BIG_CATEGORY, bigCategory);
+                arguments.putString(KeyConstants.SMALL_CATEGORY, smallCategory);
+                 mFragment.setArguments(arguments);
+                break;
+
+            case BIG_CATEGORY_PAGE:
+                mFragment = new BigCategoryFragments();
+                arguments = new Bundle();
+                arguments.putString(KeyConstants.BIG_CATEGORY, bigCategory);
+                arguments.putString(KeyConstants.SMALL_CATEGORY, smallCategory);
+                mFragment.setArguments(arguments);
+                break;
+
+        }
+        mFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.main_fragment_view,mFragment).commit();
+
     }
 
     private class CustomBigCategoryTextClick implements View.OnClickListener{
@@ -168,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             isSmallCategoriesOpen = !isSmallCategoriesOpen;
             ImageView big_category_expand_button = (ImageView) v.findViewById(R.id.big_category_expand_button);
             if(isSmallCategoriesOpen) {
-                big_category_expand_button.setImageResource(R.drawable.ic_upwards);
+                big_category_expand_button.setImageResource(R.drawable.ic_back_arrow);
 
             }else
             {

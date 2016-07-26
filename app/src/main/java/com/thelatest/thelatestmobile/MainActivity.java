@@ -1,6 +1,7 @@
 package com.thelatest.thelatestmobile;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -66,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
 
         mainToolbar.setContentInsetsAbsolute(0, 0);
 
+        this.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                openSearchActivity(v);
+            }
+        });
+
         final String bigCat = NewsCategoryConstants.getBigCategories()[0];
         final String smallCat = NewsCategoryConstants.getSmallCategoriesForBigCategory(bigCat)[0];
 
@@ -107,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
         else {
             getSupportFragmentManager().popBackStack();
         }
+    }
+
+    public void openSearchActivity(View view) {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
     }
 
     private void setUpSlideMenuView(){

@@ -16,11 +16,12 @@
         </activity>
         <activity
             android:name=".NewsActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".NewsActivitySources"
             android:label="@string/title_activity_news_activity_sources"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

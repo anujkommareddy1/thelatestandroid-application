@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView hamburgerImageView;
     private ImageView logoImageView;
 
+    private FloatingActionButton floatingActionButton;
+
     private final int MAIN_PAGE = 0;
     private final int BIG_NEWS_PAGE = 1;
     private final int SMALL_NEWS_PAGE = 2;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mainToolbar = (Toolbar)findViewById(R.id.main_toolbar);
         hamburgerImageView = (ImageView)findViewById(R.id.hamburger_imageview);
         logoImageView = (ImageView)findViewById(R.id.thelatest_logo_imageview);
+        this.floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton);
 
         mainToolbar.setContentInsetsAbsolute(0, 0);
 

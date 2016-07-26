@@ -78,6 +78,22 @@
 
         </FrameLayout>
 
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingButton"
+                android:src="@drawable/ic_more_vert_black"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_margin="16dp"
+                android:layout_gravity="bottom|right"
+                app:backgroundTint="#A80000"
+                android:clickable="true"
+                android:focusable="true"/>
+        </android.support.design.widget.CoordinatorLayout>
+
     </FrameLayout>
 
     <!-- Listview to display slider menu -->
